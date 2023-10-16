@@ -1,0 +1,381 @@
+mysql> show tables
+    -> ;
++------------------------------+
+| Tables_in_Abhishek_Lib_Manag |
++------------------------------+
+| AUTHOR                       |
+| BOOK                         |
+| BOOK_AUTHOR                  |
+| BOOK_ISSUE                   |
+| BOOK_RETURN                  |
+| LANGUAGE                     |
+| LATE_FEE_RULE                |
+| MEMBER                       |
+| PUBLISHER                    |
++------------------------------+
+9 rows in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> desc PUBLISHER;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Publisher_id | int         | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| Address      | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into PUBLISHER(publisher_id, Name, Address) values(1, "Ram", "Kannur");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into PUBLISHER(publisher_id, Name, Address) values(2, "Raju", "Thalassery");
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into PUBLISHER(publisher_id, Name, Address) values(3, "Dolu", "Kozhikkode");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> desc LANGUAGE;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Language_id | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into LANGUAGE(Language_id, Name) values(1, "Malayalam");
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into LANGUAGE(Language_id, Name) values(2, "English");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into LANGUAGE(Language_id, Name) values(3, "Tamil");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into LANGUAGE(Language_id, Name) values(4, "Spanish");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from PUBLISHER;
++--------------+------+------------+
+| Publisher_id | Name | Address    |
++--------------+------+------------+
+|            1 | Ram  | Kannur     |
+|            2 | Raju | Thalassery |
+|            3 | Dolu | Kozhikkode |
++--------------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from LANGUAGE;
++-------------+-----------+
+| Language_id | Name      |
++-------------+-----------+
+|           1 | Malayalam |
+|           2 | English   |
+|           3 | Tamil     |
+|           4 | Spanish   |
++-------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> desc BOOK;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Book_id        | int         | NO   | PRI | NULL    |       |
+| Title          | varchar(50) | YES  |     | NULL    |       |
+| Language_id    | int         | YES  | MUL | NULL    |       |
+| MRP            | int         | YES  |     | NULL    |       |
+| Publisher_id   | int         | YES  | MUL | NULL    |       |
+| Published_date | date        | YES  |     | NULL    |       |
+| Volume         | int         | YES  |     | NULL    |       |
+| Status         | varchar(50) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> source /home/vboxuser/Desktop/DBMS LAB/Exp_4/insert_Book.sql
+Query OK, 1 row affected (0.15 sec)
+
+Query OK, 1 row affected (0.11 sec)
+
+Query OK, 1 row affected (0.18 sec)
+
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from BOOK;
++---------+------------+-------------+------+--------------+----------------+--------+------------+
+| Book_id | Title      | Language_id | MRP  | Publisher_id | Published_date | Volume | Status     |
++---------+------------+-------------+------+--------------+----------------+--------+------------+
+|       1 | Jaws       |           2 |  500 |            3 | 2000-10-15     |      5 | Avalible   |
+|       2 | Dune       |           3 |  200 |            2 | 2006-06-25     |      0 | Unavalible |
+|       3 | Macbeth    |           2 |  899 |            1 | 1985-03-24     |     10 | Avalible   |
+|       4 | Cut        |           1 |  449 |            3 | 2010-08-06     |     30 | Avalible   |
+|       5 | Goldfinger |           2 | 7899 |            1 | 2021-12-28     |      2 | Avalible   |
++---------+------------+-------------+------+--------------+----------------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update BOOK set Status = "Available" where Status = "Avalible";
+Query OK, 4 rows affected (0.06 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> update BOOK set Status = "Unavailable" where Status = "Unavalible";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from BOOK;
++---------+------------+-------------+------+--------------+----------------+--------+-------------+
+| Book_id | Title      | Language_id | MRP  | Publisher_id | Published_date | Volume | Status      |
++---------+------------+-------------+------+--------------+----------------+--------+-------------+
+|       1 | Jaws       |           2 |  500 |            3 | 2000-10-15     |      5 | Available   |
+|       2 | Dune       |           3 |  200 |            2 | 2006-06-25     |      0 | Unavailable |
+|       3 | Macbeth    |           2 |  899 |            1 | 1985-03-24     |     10 | Available   |
+|       4 | Cut        |           1 |  449 |            3 | 2010-08-06     |     30 | Available   |
+|       5 | Goldfinger |           2 | 7899 |            1 | 2021-12-28     |      2 | Available   |
++---------+------------+-------------+------+--------------+----------------+--------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> select Title, MRP, Volume from BOOK where Status = "Available";
++------------+------+--------+
+| Title      | MRP  | Volume |
++------------+------+--------+
+| Jaws       |  500 |      5 |
+| Macbeth    |  899 |     10 |
+| Cut        |  449 |     30 |
+| Goldfinger | 7899 |      2 |
++------------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from BOOK where Title Like "F%";
+Empty set (0.00 sec)
+
+mysql> select * from BOOK where Title Like "G%";
++---------+------------+-------------+------+--------------+----------------+--------+-----------+
+| Book_id | Title      | Language_id | MRP  | Publisher_id | Published_date | Volume | Status    |
++---------+------------+-------------+------+--------------+----------------+--------+-----------+
+|       5 | Goldfinger |           2 | 7899 |            1 | 2021-12-28     |      2 | Available |
++---------+------------+-------------+------+--------------+----------------+--------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select * from BOOK where Title Like "%y";
+Empty set (0.00 sec)
+
+mysql> select * from BOOK where Title Like "%h";
++---------+---------+-------------+------+--------------+----------------+--------+-----------+
+| Book_id | Title   | Language_id | MRP  | Publisher_id | Published_date | Volume | Status    |
++---------+---------+-------------+------+--------------+----------------+--------+-----------+
+|       3 | Macbeth |           2 |  899 |            1 | 1985-03-24     |     10 | Available |
++---------+---------+-------------+------+--------------+----------------+--------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select * from BOOK where Title Like "_a%";
++---------+---------+-------------+------+--------------+----------------+--------+-----------+
+| Book_id | Title   | Language_id | MRP  | Publisher_id | Published_date | Volume | Status    |
++---------+---------+-------------+------+--------------+----------------+--------+-----------+
+|       1 | Jaws    |           2 |  500 |            3 | 2000-10-15     |      5 | Available |
+|       3 | Macbeth |           2 |  899 |            1 | 1985-03-24     |     10 | Available |
++---------+---------+-------------+------+--------------+----------------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select Title, Status from BOOK WHERE MRP > 500;
++------------+-----------+
+| Title      | Status    |
++------------+-----------+
+| Macbeth    | Available |
+| Goldfinger | Available |
++------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select Title, Status from BOOK WHERE MRP BETWEEN 500 AND 1000;
++---------+-----------+
+| Title   | Status    |
++---------+-----------+
+| Jaws    | Available |
+| Macbeth | Available |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT MRP FROM BOOK;
++------+
+| MRP  |
++------+
+|  500 |
+|  200 |
+|  899 |
+|  449 |
+| 7899 |
++------+
+5 rows in set (0.01 sec)
+
+mysql> insert into BOOK(Book_id, Title, Language_id, MRP, Publisher_id, Published_date, Volume, Status) values(6, "Fundamentals of database design", 2, 99, 2, '2011-01-19', 2, "Avalible");
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from BOOK;
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+| Book_id | Title                           | Language_id | MRP  | Publisher_id | Published_date | Volume | Status      |
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+|       1 | Jaws                            |           2 |  500 |            3 | 2000-10-15     |      5 | Available   |
+|       2 | Dune                            |           3 |  200 |            2 | 2006-06-25     |      0 | Unavailable |
+|       3 | Macbeth                         |           2 |  899 |            1 | 1985-03-24     |     10 | Available   |
+|       4 | Cut                             |           1 |  449 |            3 | 2010-08-06     |     30 | Available   |
+|       5 | Goldfinger                      |           2 | 7899 |            1 | 2021-12-28     |      2 | Available   |
+|       6 | Fundamentals of database design |           2 |   99 |            2 | 2011-01-19     |      2 | Avalible    |
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> update BOOK set Status = "UnAvailable", Volume = 0 where Title = "Fundamentals of database design";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from BOOK;
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+| Book_id | Title                           | Language_id | MRP  | Publisher_id | Published_date | Volume | Status      |
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+|       1 | Jaws                            |           2 |  500 |            3 | 2000-10-15     |      5 | Available   |
+|       2 | Dune                            |           3 |  200 |            2 | 2006-06-25     |      0 | Unavailable |
+|       3 | Macbeth                         |           2 |  899 |            1 | 1985-03-24     |     10 | Available   |
+|       4 | Cut                             |           1 |  449 |            3 | 2010-08-06     |     30 | Available   |
+|       5 | Goldfinger                      |           2 | 7899 |            1 | 2021-12-28     |      2 | Available   |
+|       6 | Fundamentals of database design |           2 |   99 |            2 | 2011-01-19     |      0 | UnAvailable |
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> select * from PUBLISHER;
++--------------+------+------------+
+| Publisher_id | Name | Address    |
++--------------+------+------------+
+|            1 | Ram  | Kannur     |
+|            2 | Raju | Thalassery |
+|            3 | Dolu | Kozhikkode |
++--------------+------+------------+
+3 rows in set (0.01 sec)
+
+mysql> UPDATE PUBLISHER set Address = "Kochi" where Name = "Raju";
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from PUBLISHER;
++--------------+------+------------+
+| Publisher_id | Name | Address    |
++--------------+------+------------+
+|            1 | Ram  | Kannur     |
+|            2 | Raju | Kochi      |
+|            3 | Dolu | Kozhikkode |
++--------------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> delete from BOOK where Publisher_id = 3;
+Query OK, 2 rows affected (0.08 sec)
+
+mysql> select * from BOOK;
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+| Book_id | Title                           | Language_id | MRP  | Publisher_id | Published_date | Volume | Status      |
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+|       2 | Dune                            |           3 |  200 |            2 | 2006-06-25     |      0 | Unavailable |
+|       3 | Macbeth                         |           2 |  899 |            1 | 1985-03-24     |     10 | Available   |
+|       5 | Goldfinger                      |           2 | 7899 |            1 | 2021-12-28     |      2 | Available   |
+|       6 | Fundamentals of database design |           2 |   99 |            2 | 2011-01-19     |      0 | UnAvailable |
++---------+---------------------------------+-------------+------+--------------+----------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> desc AUTHOR;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Author_id | int         | NO   | PRI | NULL    |       |
+| Name      | varchar(50) | YES  |     | NULL    |       |
+| Email     | varchar(50) | YES  |     | NULL    |       |
+| Phone_No  | int         | YES  |     | NULL    |       |
+| Status    | varchar(50) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> source /home/vboxuser/Desktop/DBMS LAB/Exp_4/Author_BULK.sql
+Query OK, 1 row affected (0.11 sec)
+
+Query OK, 1 row affected (0.17 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> desc MEMBER;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Member_id    | int         | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| Branch_code  | varchar(50) | YES  |     | NULL    |       |
+| Roll_no      | int         | YES  |     | NULL    |       |
+| Phone_no     | int         | YES  |     | NULL    |       |
+| Email_id     | varchar(50) | YES  |     | NULL    |       |
+| Date_of_join | date        | YES  |     | NULL    |       |
+| Status       | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc LATE_FEE_RULE;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| id       | int  | NO   | PRI | NULL    |       |
+| FromDays | date | YES  |     | NULL    |       |
+| ToDays   | date | YES  |     | NULL    |       |
+| Amount   | int  | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table LATE_FEE_RULE modify COLUMN FromDays int;
+Query OK, 0 rows affected (0.31 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table LATE_FEE_RULE modify COLUMN ToDays int;
+Query OK, 0 rows affected (0.38 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc LATE_FEE_RULE;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| id       | int  | NO   | PRI | NULL    |       |
+| FromDays | int  | YES  |     | NULL    |       |
+| ToDays   | int  | YES  |     | NULL    |       |
+| Amount   | int  | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from LATE_FEE_RULE;
+Empty set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> CREATE INDEX book_id_index ON BOOK(Book_Id);
+Query OK, 0 rows affected (0.31 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
